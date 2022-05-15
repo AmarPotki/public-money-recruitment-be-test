@@ -7,7 +7,7 @@ namespace Framework.Domain
     public interface IAggregateRoot : IEntity
     {
         void ClearDomainEvents();
-
+        void SetId(int id);
         IReadOnlyList<IDomainEvent> DomainEvents { get; }
     }
 }

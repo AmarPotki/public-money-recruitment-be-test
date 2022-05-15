@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Framework.Domain
 {
-    public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot
+    public abstract class AggregateRoot : Entity, IAggregateRoot
     {
         protected AggregateRoot()
         {
@@ -13,6 +13,11 @@ namespace Framework.Domain
 
         // **********
         private readonly List<IDomainEvent> _domainEvents;
+
+        public void SetId(int id)
+        {
+            Id=id;
+        }
 
         public IReadOnlyList<IDomainEvent> DomainEvents
         {

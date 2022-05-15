@@ -6,10 +6,20 @@
 
   <ItemGroup>
     <Folder Include="CommandHandlers\" />
-    <Folder Include="Commands\" />
+    <Folder Include="Behaviors\" />
     <Folder Include="Validations\" />
     <Folder Include="QueryHandlers\" />
     <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.4" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VacationRental.Domain\VacationRental.Domain.csproj" />
   </ItemGroup>
 
 </Project>
