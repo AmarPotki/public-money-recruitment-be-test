@@ -18,7 +18,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VacationRental.Persistence\VacationRental.Persistence.csproj" />
+    <ProjectReference Include="..\VacationRental.Resources\VacationRental.Resources.csproj" />
     <ProjectReference Include="..\VacationRentanl.Application\VacationRental.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

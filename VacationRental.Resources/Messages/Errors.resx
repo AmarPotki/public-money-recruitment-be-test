@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Booking" xml:space="preserve">
-    <value>Booking</value>
+  <data name="ApplicationException" xml:space="preserve">
+    <value>An error occur.Try it again.</value>
+  </data>
+  <data name="BookingNotFound" xml:space="preserve">
+    <value>Booking not found.</value>
+  </data>
+  <data name="NightsMustBePositive" xml:space="preserve">
+    <value>Nights must be positive.</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+  <data name="RentalNotFound" xml:space="preserve">
+    <value>Rental not found.</value>
   </data>
 </root>

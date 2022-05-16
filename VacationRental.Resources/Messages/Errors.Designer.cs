@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VacationRental.Resources {
+namespace VacationRental.Resources.Messages {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace VacationRental.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DataDictionary {
+    public class Errors {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DataDictionary() {
+        internal Errors() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace VacationRental.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VacationRental.Resources.DataDictionary", typeof(DataDictionary).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VacationRental.Resources.Messages.Errors", typeof(Errors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,47 @@ namespace VacationRental.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Booking.
+        ///   Looks up a localized string similar to An error occur.Try it again..
         /// </summary>
-        public static string Booking {
+        public static string ApplicationException {
             get {
-                return ResourceManager.GetString("Booking", resourceCulture);
+                return ResourceManager.GetString("ApplicationException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booking not found..
+        /// </summary>
+        public static string BookingNotFound {
+            get {
+                return ResourceManager.GetString("BookingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nights must be positive..
+        /// </summary>
+        public static string NightsMustBePositive {
+            get {
+                return ResourceManager.GetString("NightsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rental not found..
+        /// </summary>
+        public static string RentalNotFound {
+            get {
+                return ResourceManager.GetString("RentalNotFound", resourceCulture);
             }
         }
     }

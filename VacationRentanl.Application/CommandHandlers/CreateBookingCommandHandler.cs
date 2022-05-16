@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using MediatR;
 using VacationRental.Application.Commands;
 using VacationRental.Domain.Aggregates.BookingAggregate;
 using VacationRental.Domain.Aggregates.RentalAggregate;
+using VacationRental.Resources.Messages;
 
 namespace VacationRental.Application.CommandHandlers
 {
@@ -25,22 +25,26 @@ namespace VacationRental.Application.CommandHandlers
         public async Task<Booking> Handle(BookingBindingModel request, CancellationToken cancellationToken)
         {
 
-            var rental = await _rentalRepository.FirstAsync(request.RentalId);
+            var rental = await _rentalRepository.FirstAsync(request.RentalId,CancellationToken.None);
             if(rental is null)
-                throw new ApplicationException("Rental not found");
+                throw new ApplicationServiceException(Errors.RentalNotFound);
 
-            var bookings =await _bookingRepository.GetBookingsByRentalId(request.RentalId);
-            if (bookings != null && bookings.Any())
+            var bookings =(await _bookingRepository.GetBookingsByRentalId(request.RentalId)).Select(x=> new
             {
-                var count = bookings.Count(x => (x.Start <= request.Start.Date 
-                                                 && x.Start.AddDays(x.Nights).AddDays(rental.PreparationTimeInDays) > request.Start.Date) ||
-                                                (x.Start < request.Start.AddDays(request.Nights).AddDays(rental.PreparationTimeInDays)
-                                                 && x.Start.AddDays(x.Nights).AddDays(rental.PreparationTimeInDays) >= request.Start.AddDays(request.Nights).AddDays(rental.PreparationTimeInDays))||
-                                                (x.Start > request.Start && x.Start.AddDays(x.Nights).AddDays(rental.PreparationTimeInDays) < request.Start.AddDays(request.Nights).AddDays(rental.PreparationTimeInDays)));
+                StartDate = x.Start.Date,
+                EndDate=x.Start.AddDays(x.Nights + rental.PreparationTimeInDays)
+            });
+            //real end date
+            var requestEndDate = request.Start.AddDays(request.Nights+ rental.PreparationTimeInDays);
+            if (bookings.Any())
+            {
+                var count = bookings.Count(c=>(c.StartDate <= request.Start && request.Start <= c.EndDate) ||
+                                           (requestEndDate >= c.StartDate && requestEndDate <= c.EndDate) ||
+                                           (request.Start <= c.StartDate && requestEndDate >= c.EndDate));
 
 
                 if (count >= rental.Units)
-                    throw new ApplicationServiceException("Not available");
+                    throw new ApplicationServiceException(Errors.NotAvailable);
             }
             var booking =new Booking( request.RentalId, request.Start, request.Nights);
 

@@ -8,8 +8,6 @@
     <Folder Include="CommandHandlers\" />
     <Folder Include="Behaviors\" />
     <Folder Include="Validations\" />
-    <Folder Include="QueryHandlers\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VacationRental.Domain\VacationRental.Domain.csproj" />
+    <ProjectReference Include="..\VacationRental.Resources\VacationRental.Resources.csproj" />
   </ItemGroup>
 
 </Project>
