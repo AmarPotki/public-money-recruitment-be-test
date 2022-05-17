@@ -14,10 +14,6 @@ namespace Framework.Domain
         // **********
         private readonly List<IDomainEvent> _domainEvents;
 
-        public void SetId(int id)
-        {
-            Id=id;
-        }
 
         public IReadOnlyList<IDomainEvent> DomainEvents
         {

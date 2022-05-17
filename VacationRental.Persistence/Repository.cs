@@ -24,7 +24,7 @@ namespace VacationRental.Persistence
         {
             return DB.Count == 0 ? 1 : DB.Max(c => c.Key) + 1;
         }
-        public Task<T> AddAsync
+        public virtual Task<T> AddAsync
         (T entity, CancellationToken cancellationToken = default)
         {
             if (entity == null)

@@ -28,25 +28,30 @@ namespace VacationRental.Application.CommandHandlers
             var rental = await _rentalRepository.FirstAsync(request.RentalId,CancellationToken.None);
             if(rental is null)
                 throw new ApplicationServiceException(Errors.RentalNotFound);
-
+            
+            var firstAvailableUnitId = rental.Units.First().Id;
             var bookings =(await _bookingRepository.GetBookingsByRentalId(request.RentalId)).Select(x=> new
             {
                 StartDate = x.Start.Date,
-                EndDate=x.Start.AddDays(x.Nights + rental.PreparationTimeInDays)
+                EndDate=x.Start.AddDays(x.Nights + rental.PreparationTimeInDays),
+                x.UnitId
             });
             //real end date
             var requestEndDate = request.Start.AddDays(request.Nights+ rental.PreparationTimeInDays);
             if (bookings.Any())
             {
-                var count = bookings.Count(c=>(c.StartDate <= request.Start && request.Start <= c.EndDate) ||
+                var notAvailableUnits = bookings.Where(c=>(c.StartDate <= request.Start && request.Start <= c.EndDate) ||
                                            (requestEndDate >= c.StartDate && requestEndDate <= c.EndDate) ||
                                            (request.Start <= c.StartDate && requestEndDate >= c.EndDate));
 
 
-                if (count >= rental.Units)
+                if (notAvailableUnits.Count() >= rental.UnitsCount())
                     throw new ApplicationServiceException(Errors.NotAvailable);
+                var availableUnits = rental.Units.Select(x => x.Id).Except(notAvailableUnits.Select(c => c.UnitId));
+                firstAvailableUnitId = availableUnits.First();
             }
-            var booking =new Booking( request.RentalId, request.Start, request.Nights);
+
+            var booking =new Booking( request.RentalId, firstAvailableUnitId, request.Start, request.Nights);
 
            await _bookingRepository.AddAsync(booking,CancellationToken.None);
 

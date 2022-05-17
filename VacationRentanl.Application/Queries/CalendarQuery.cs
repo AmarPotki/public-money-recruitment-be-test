@@ -28,10 +28,9 @@ namespace VacationRental.Application.Queries
 
             var rentalUnits = _rentals[rentalId].Units;
             var preparationTimeInDays = _rentals[rentalId].PreparationTimeInDays;
-            var currentUnit = 0;
             var bookings = _bookings.Values.Where(x => x.RentalId == rentalId && x.Start<= start.AddDays(nights).Date).ToList();
 
-            var result = new CalendarViewModel
+            var calendar = new CalendarViewModel
             {
                 RentalId = rentalId,
                 Dates = new List<CalendarDateViewModel>()
@@ -49,10 +48,9 @@ namespace VacationRental.Application.Queries
                 var bookedUnits = bookings.Where(c => c.Start.AddDays(c.Nights) > date.Date);
                 foreach (var bookedUnit in bookedUnits)
                 {
-                  var currentBookingUnit = GetBookingUnit(result, date, bookedUnit, currentUnit, rentalUnits);
 
                         date.Bookings.Add(new CalendarBookingViewModel
-                            {Id = bookedUnit.Id, Unit = currentBookingUnit});
+                            {Id = bookedUnit.Id, Unit = rentalUnits.First(x=>x.Id==bookedUnit.UnitId).UnitNumber });
                 }
 
                 var inPreparationTimes = bookings.Where(c => c.Start.AddDays(c.Nights) <= date.Date &&
@@ -61,70 +59,63 @@ namespace VacationRental.Application.Queries
                 foreach (var booking in inPreparationTimes)
                 {
 
-                        int? unit = null;
-
-                        unit = result.Dates.SelectMany(x => x.Bookings)
-                            .FirstOrDefault(x => x.Id == booking.Id)?.Unit;
-
-                        var currentPreparationUnit = unit ?? rentalUnits;
-
-                        date.PreparationTimes.Add(new UnitViewModel {Unit = currentPreparationUnit});
+                    date.PreparationTimes.Add(new UnitViewModel {Unit = rentalUnits.First(x => x.Id == booking.UnitId).UnitNumber });
                     
                 }
 
-                result.Dates.Add(date);
+                calendar.Dates.Add(date);
             }
 
-            return Task.FromResult(result);
+            return Task.FromResult(calendar);
         }
 
-        private int GetBookingUnit(CalendarViewModel result, CalendarDateViewModel date, Booking booking,
-            int currentUnit, int units)
-        {
-            int? unit = null;
+        //private int GetBookingUnit(CalendarViewModel result, CalendarDateViewModel date, Booking booking,
+        //    int currentUnit, int units)
+        //{
+        //    int? unit = null;
 
-            if (result.Dates.SelectMany(x => x.Bookings).Any())
-            {
-                unit = result.Dates.SelectMany(x => x.Bookings)
-                    .FirstOrDefault(x => x.Id == booking.Id)?.Unit;
+        //    if (result.Dates.SelectMany(x => x.Bookings).Any())
+        //    {
+        //        unit = result.Dates.SelectMany(x => x.Bookings)
+        //            .FirstOrDefault(x => x.Id == booking.Id)?.Unit;
 
-                if (unit != null)
-                {
-                    currentUnit = unit.Value;
-                }
-                else
-                {
-                    unit = result.Dates.SelectMany(x => x.Bookings).Last().Unit;
+        //        if (unit != null)
+        //        {
+        //            currentUnit = unit.Value;
+        //        }
+        //        else
+        //        {
+        //            unit = result.Dates.SelectMany(x => x.Bookings).Last().Unit;
 
 
-                    if (unit == units)
-                        currentUnit = 1;
-                    else
-                        currentUnit = unit.Value + 1;
-                }
-            }
-            else if (date.Bookings.Any())
-            {
-                var lastBooking = date.Bookings.Last();
+        //            if (unit == units)
+        //                currentUnit = 1;
+        //            else
+        //                currentUnit = unit.Value + 1;
+        //        }
+        //    }
+        //    else if (date.Bookings.Any())
+        //    {
+        //        var lastBooking = date.Bookings.Last();
 
-                if (lastBooking.Id == booking.Id)
-                {
-                    currentUnit = lastBooking.Unit;
-                }
-                else
-                {
-                    if (date.Bookings.Last().Unit == units)
-                        currentUnit = 1;
-                    else
-                        currentUnit = date.Bookings.Last().Unit + 1;
-                }
-            }
-            else
-            { 
-                currentUnit = 1;
-            }
+        //        if (lastBooking.Id == booking.Id)
+        //        {
+        //            currentUnit = lastBooking.Unit;
+        //        }
+        //        else
+        //        {
+        //            if (date.Bookings.Last().Unit == units)
+        //                currentUnit = 1;
+        //            else
+        //                currentUnit = date.Bookings.Last().Unit + 1;
+        //        }
+        //    }
+        //    else
+        //    { 
+        //        currentUnit = 1;
+        //    }
 
-            return currentUnit;
-        }
+        //    return currentUnit;
+        //}
     }
 }
