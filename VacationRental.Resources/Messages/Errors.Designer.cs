@@ -79,11 +79,38 @@ namespace VacationRental.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can not update PreparationTimeInDays because overlapping will happen..
+        /// </summary>
+        public static string NewPreparationTimeInDaysFails {
+            get {
+                return ResourceManager.GetString("NewPreparationTimeInDaysFails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can not update Units because there is at least one day in your bookings list that .....
+        /// </summary>
+        public static string NewUnitsCountFails {
+            get {
+                return ResourceManager.GetString("NewUnitsCountFails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nights must be positive..
         /// </summary>
         public static string NightsMustBePositive {
             get {
                 return ResourceManager.GetString("NightsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No change exist..
+        /// </summary>
+        public static string NoChange {
+            get {
+                return ResourceManager.GetString("NoChange", resourceCulture);
             }
         }
         

@@ -69,53 +69,6 @@ namespace VacationRental.Application.Queries
             return Task.FromResult(calendar);
         }
 
-        //private int GetBookingUnit(CalendarViewModel result, CalendarDateViewModel date, Booking booking,
-        //    int currentUnit, int units)
-        //{
-        //    int? unit = null;
 
-        //    if (result.Dates.SelectMany(x => x.Bookings).Any())
-        //    {
-        //        unit = result.Dates.SelectMany(x => x.Bookings)
-        //            .FirstOrDefault(x => x.Id == booking.Id)?.Unit;
-
-        //        if (unit != null)
-        //        {
-        //            currentUnit = unit.Value;
-        //        }
-        //        else
-        //        {
-        //            unit = result.Dates.SelectMany(x => x.Bookings).Last().Unit;
-
-
-        //            if (unit == units)
-        //                currentUnit = 1;
-        //            else
-        //                currentUnit = unit.Value + 1;
-        //        }
-        //    }
-        //    else if (date.Bookings.Any())
-        //    {
-        //        var lastBooking = date.Bookings.Last();
-
-        //        if (lastBooking.Id == booking.Id)
-        //        {
-        //            currentUnit = lastBooking.Unit;
-        //        }
-        //        else
-        //        {
-        //            if (date.Bookings.Last().Unit == units)
-        //                currentUnit = 1;
-        //            else
-        //                currentUnit = date.Bookings.Last().Unit + 1;
-        //        }
-        //    }
-        //    else
-        //    { 
-        //        currentUnit = 1;
-        //    }
-
-        //    return currentUnit;
-        //}
     }
 }

@@ -123,8 +123,17 @@
   <data name="BookingNotFound" xml:space="preserve">
     <value>Booking not found.</value>
   </data>
+  <data name="NewPreparationTimeInDaysFails" xml:space="preserve">
+    <value>You can not update PreparationTimeInDays because overlapping will happen.</value>
+  </data>
+  <data name="NewUnitsCountFails" xml:space="preserve">
+    <value>You can not update Units because there is at least one day in your bookings list that ....</value>
+  </data>
   <data name="NightsMustBePositive" xml:space="preserve">
     <value>Nights must be positive.</value>
+  </data>
+  <data name="NoChange" xml:space="preserve">
+    <value>No change exist.</value>
   </data>
   <data name="NotAvailable" xml:space="preserve">
     <value>Not available</value>

@@ -30,7 +30,7 @@ namespace VacationRental.Application.CommandHandlers
                 throw new ApplicationServiceException(Errors.RentalNotFound);
             
             var firstAvailableUnitId = rental.Units.First().Id;
-            var bookings =(await _bookingRepository.GetBookingsByRentalId(request.RentalId)).Select(x=> new
+            var bookings =(await _bookingRepository.GetBookingsByRentalIdAndStartDate(request.RentalId, DateTime.Now)).Select(x=> new
             {
                 StartDate = x.Start.Date,
                 EndDate=x.Start.AddDays(x.Nights + rental.PreparationTimeInDays),
@@ -40,7 +40,8 @@ namespace VacationRental.Application.CommandHandlers
             var requestEndDate = request.Start.AddDays(request.Nights+ rental.PreparationTimeInDays);
             if (bookings.Any())
             {
-                var notAvailableUnits = bookings.Where(c=>(c.StartDate <= request.Start && request.Start <= c.EndDate) ||
+                var notAvailableUnits = bookings.Where(c=>
+                                           (c.StartDate <= request.Start && request.Start <= c.EndDate) ||
                                            (requestEndDate >= c.StartDate && requestEndDate <= c.EndDate) ||
                                            (request.Start <= c.StartDate && requestEndDate >= c.EndDate));
 

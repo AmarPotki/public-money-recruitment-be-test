@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VacationRental.Domain.Aggregates.BookingAggregate;
@@ -12,9 +13,10 @@ namespace VacationRental.Persistence.Repositories
 
         }
 
-        public Task<List<Booking>> GetBookingsByRentalId(int rentalId)
+        public Task<List<Booking>> GetBookingsByRentalIdAndStartDate(int rentalId, DateTime dateTime)
         {
-            var results = DB.Where(x => x.Value.RentalId == rentalId).Select(x => x.Value)
+            var results = DB.Where(x => x.Value.RentalId == rentalId && x.Value.Start >= dateTime.Date)
+                .Select(x => x.Value)
                 .ToList();
             return Task.FromResult(results);
         }
