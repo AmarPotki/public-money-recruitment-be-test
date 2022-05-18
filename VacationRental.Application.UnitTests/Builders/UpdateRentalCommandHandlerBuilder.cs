@@ -60,7 +60,7 @@ namespace VacationRental.Application.UnitTests.Builders
                 new Booking(rental.Id, rental.Units[0].Id, startDate.AddDays(1 + rental.PreparationTimeInDays), 2),
                 new Booking(rental.Id, rental.Units[1].Id, startDate.AddDays(2 + rental.PreparationTimeInDays), 3),
             };
-            BookingRepository.Setup(c => c.GetBookingsByRentalIdAndStartDate(rental.Id, It.IsAny<DateTime>())).ReturnsAsync(bookings);
+            BookingRepository.Setup(c => c.GetBookingsByRentalIdAndStartDate(It.IsAny<int>(), It.IsAny<DateTime>())).ReturnsAsync(bookings);
             return this;
         }
         public UpdateRentalCommandHandlerBuilder WithListOfBookingsWithBookingsThatExtendByOneDayForRentalWithTwoUnitsAndOnePreparationTime(DateTime startDate)
@@ -77,7 +77,7 @@ namespace VacationRental.Application.UnitTests.Builders
                 new Booking(rental.Id, rental.Units[0].Id, startDate.AddDays(2 + rental.PreparationTimeInDays), 2),
                 new Booking(rental.Id, rental.Units[1].Id, startDate.AddDays(3 + rental.PreparationTimeInDays), 3),
             };
-            BookingRepository.Setup(c => c.GetBookingsByRentalIdAndStartDate(rental.Id, It.IsAny<DateTime>())).ReturnsAsync(bookings);
+            BookingRepository.Setup(c => c.GetBookingsByRentalIdAndStartDate(It.IsAny<int>(), It.IsAny<DateTime>())).ReturnsAsync(bookings);
             RentalRepository.Setup(c => c.Update(It.IsAny<Rental>())).Verifiable();
             return this;
         }

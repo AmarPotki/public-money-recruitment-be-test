@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Framework.Exceptions;
 using VacationRental.Application.Commands;
 using VacationRental.Application.ViewModels;
 using Xunit;
@@ -37,7 +38,7 @@ namespace VacationRental.Api.Tests
             {
                  RentalId = postRentalResult.Id,
                  Nights = 3,
-                 Start = new DateTime(2001, 01, 01)
+                 Start = new DateTime(2023, 01, 01)
             };
 
             ResourceIdViewModel postBookingResult;
@@ -63,7 +64,8 @@ namespace VacationRental.Api.Tests
         {
             var postRentalRequest = new RentalBindingModel
             {
-                Units = 1
+                Units = 1,
+                PreparationTimeInDays = 1
             };
 
             ResourceIdViewModel postRentalResult;
@@ -77,7 +79,7 @@ namespace VacationRental.Api.Tests
             {
                 RentalId = postRentalResult.Id,
                 Nights = 3,
-                Start = new DateTime(2002, 01, 01)
+                Start = new DateTime(2023, 01, 01)
             };
 
             using (var postBooking1Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking1Request))
@@ -89,15 +91,17 @@ namespace VacationRental.Api.Tests
             {
                 RentalId = postRentalResult.Id,
                 Nights = 1,
-                Start = new DateTime(2002, 01, 02)
+                Start = new DateTime(2023, 01, 02)
             };
 
-            await Assert.ThrowsAsync<ApplicationException>(async () =>
-            {
+           // await Assert.ThrowsAsync<ApplicationServiceException>(async () =>
+           // {
                 using (var postBooking2Response = await _client.PostAsJsonAsync($"/api/v1/bookings", postBooking2Request))
                 {
+                Assert.False(postBooking2Response.IsSuccessStatusCode);
+                Assert.Equal(HttpStatusCode.BadRequest, postBooking2Response.StatusCode);
                 }
-            });
+           // });
         }
     }
 }

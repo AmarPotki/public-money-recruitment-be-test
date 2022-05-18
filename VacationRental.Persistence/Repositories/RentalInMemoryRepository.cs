@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using VacationRental.Domain.Aggregates.RentalAggregate;
 
 namespace VacationRental.Persistence.Repositories
@@ -11,7 +12,7 @@ namespace VacationRental.Persistence.Repositories
     public class RentalInMemoryRepository: RepositoryInMemoryBase<Rental>, IRentalRepository
     {
         private readonly IDictionary<int, Rental> _db;
-        public RentalInMemoryRepository(IDictionary<int, Rental> db) : base(db)
+        public RentalInMemoryRepository(IDictionary<int, Rental> db,IMediator mediator) : base(db, mediator)
         {
             _db = db;
         }

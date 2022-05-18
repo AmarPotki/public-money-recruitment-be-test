@@ -39,7 +39,7 @@ namespace VacationRental.Application.CommandHandlers
 
             if (request.PreparationTimeInDays != rental.PreparationTimeInDays && request.Units == rental.UnitsCount())
             {
-                ProcessNewChanges(rental, request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysFails);
+                ProcessNewChanges(request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysFails);
 
                 return await UpdatePreparationTimeInDays(rental, request.PreparationTimeInDays);
 
@@ -49,7 +49,7 @@ namespace VacationRental.Application.CommandHandlers
             {
                 if (request.Units - rental.UnitsCount() < 0)
                 {
-                    ProcessNewChanges(rental, request, originalBookings,
+                    ProcessNewChanges(request, originalBookings,
                         request.PreparationTimeInDays, Errors.NewUnitsCountFails);
 
                     return await DecreaseRentalUnits(rental, rental.UnitsCount() - request.Units);
@@ -70,7 +70,7 @@ namespace VacationRental.Application.CommandHandlers
             if (request.Units - rental.UnitsCount() > 0 && request.PreparationTimeInDays - rental.PreparationTimeInDays > 0)
             {
 
-                ProcessNewChanges(rental, request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysOrUnitsFails);
+                ProcessNewChanges(request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysOrUnitsFails);
                 await IncreaseRentalUnits(rental, request.Units - rental.UnitsCount());
                 await UpdatePreparationTimeInDays(rental, request.PreparationTimeInDays);
 
@@ -78,14 +78,14 @@ namespace VacationRental.Application.CommandHandlers
 
             if (request.Units - rental.UnitsCount() < 0 && request.PreparationTimeInDays - rental.PreparationTimeInDays > 0)
             {
-                ProcessNewChanges(rental, request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysOrUnitsFails);
+                ProcessNewChanges(request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysOrUnitsFails);
                 await DecreaseRentalUnits(rental, rental.UnitsCount() - request.Units);
                 await UpdatePreparationTimeInDays(rental, request.PreparationTimeInDays);
             }
 
             if (request.Units - rental.UnitsCount() < 0 && request.PreparationTimeInDays - rental.PreparationTimeInDays < 0)
             {
-                ProcessNewChanges(rental, request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysOrUnitsFails);
+                ProcessNewChanges(request, originalBookings, request.PreparationTimeInDays, Errors.NewPreparationTimeInDaysOrUnitsFails);
                 await DecreaseRentalUnits(rental, rental.UnitsCount() - request.Units);
                 await UpdatePreparationTimeInDays(rental, request.PreparationTimeInDays);
             }
@@ -94,7 +94,7 @@ namespace VacationRental.Application.CommandHandlers
             return true;
         }
 
-        private void ProcessNewChanges(Rental rental, UpdateRentalCommand request,
+        private void ProcessNewChanges(UpdateRentalCommand request,
             List<Booking> originalBookings, int preparationTimeInDays, string message)
         {
 

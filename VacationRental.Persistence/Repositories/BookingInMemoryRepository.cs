@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using VacationRental.Domain.Aggregates.BookingAggregate;
 
 namespace VacationRental.Persistence.Repositories
 {
     public class BookingInMemoryRepository : RepositoryInMemoryBase<Booking>, IBookingRepository
     {
-        public BookingInMemoryRepository(IDictionary<int, Booking> db) : base(db)
+        public BookingInMemoryRepository(IDictionary<int, Booking> db,IMediator mediator) : base(db, mediator)
         {
 
         }
