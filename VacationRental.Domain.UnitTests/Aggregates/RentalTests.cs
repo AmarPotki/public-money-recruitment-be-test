@@ -19,7 +19,7 @@ namespace VacationRental.Domain.UnitTests.Aggregates
         public void Create_Rental_Successfully()
         {
             _rental.PreparationTimeInDays.Should().Be(1);
-            _rental.UnitsCount().Should().Be(3);
+            _rental.AvailableUnitsCount().Should().Be(3);
             _rental.Units.Should().OnlyHaveUniqueItems();
         }
         [Fact]
@@ -28,8 +28,32 @@ namespace VacationRental.Domain.UnitTests.Aggregates
             var expectedList = new[] { 1, 2, 3 };
 
             _rental.PreparationTimeInDays.Should().Be(1);
-            _rental.UnitsCount().Should().Be(3);
+            _rental.AvailableUnitsCount().Should().Be(3);
             _rental.Units.Select(x => x.UnitNumber).Should().BeEquivalentTo(expectedList);
+        }
+
+        [Fact]
+        public void Increase_Units()
+        {
+            var units = _rental.AvailableUnitsCount();
+            _rental.IncreaseUnits(3);
+            _rental.AvailableUnitsCount().Should().Be(units +3);
+        }
+        [Fact]
+        public void Decrease_Units()
+        {
+            var units = _rental.AvailableUnitsCount();
+            _rental.DecreaseUnits(2);
+            _rental.AvailableUnitsCount().Should().Be(units - 2);
+           
+        }
+        [Fact]
+        public void Decrease_Units_Means_DisableUnits()
+        {
+            var units = _rental.AvailableUnitsCount();
+            _rental.DecreaseUnits(2);
+            _rental.AvailableUnitsCount().Should().Be(units - 2);
+            _rental.Units.Count.Should().Be(units);
         }
     }
 }

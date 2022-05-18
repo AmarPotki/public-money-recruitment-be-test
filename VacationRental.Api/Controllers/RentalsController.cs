@@ -36,7 +36,7 @@ namespace VacationRental.Api.Controllers
             var rental = await _rentalRepository.FirstAsync(rentalId);
 
             // we can use Automapper or Mapster
-            return new RentalViewModel { Id = rental.Id, Units = rental.UnitsCount()  };
+            return new RentalViewModel { Id = rental.Id, Units = rental.AvailableUnitsCount()  };
         }
 
         [HttpPost]

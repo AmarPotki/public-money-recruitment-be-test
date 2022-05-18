@@ -17,13 +17,13 @@ namespace VacationRental.Domain.Aggregates.RentalAggregate
         public IReadOnlyList<Unit> Units => _units;
         public int PreparationTimeInDays { get; private set; }
 
-        public void AddUnit()
+        private void AddUnit()
         {
             var unitNumber = _units.Any() ? _units.Max(c => c.UnitNumber) + 1 : 1;
             _units.Add(new Unit(unitNumber));
         }
 
-        public int UnitsCount() => _units.Count(c=>c.IsEnabled);
+        public int AvailableUnitsCount() => _units.Count(c=>c.IsEnabled);
         private void AddUnits(int unitNumbers)
         {
             for (var i = 1; i <= unitNumbers; i++)
@@ -52,24 +52,10 @@ namespace VacationRental.Domain.Aggregates.RentalAggregate
         public void IncreaseUnits(int count)
         {
             var nextUnitNumber = _units.Max(c=>c.UnitNumber) +1;
-            for (var i = nextUnitNumber; i <= count + nextUnitNumber; i++)
+            for (var i = nextUnitNumber; i < count + nextUnitNumber; i++)
             {
                 _units.Add(new Unit(i));
             }
         }
-    }
-
-    public class Unit : Entity
-    {
-        public Unit(int unitNumber)
-        {
-            UnitNumber = unitNumber;
-            IsEnabled = true;
-        }
-
-        public bool IsEnabled { get; private set; }
-        public int UnitNumber { get;private set; }
-
-        public void Disable() => IsEnabled = false;
     }
 }

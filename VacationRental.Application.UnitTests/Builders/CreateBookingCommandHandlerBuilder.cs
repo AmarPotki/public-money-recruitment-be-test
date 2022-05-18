@@ -47,7 +47,7 @@ namespace VacationRental.Application.UnitTests.Builders
                 new Booking(rental.Id, rental.Units[1].Id, requestDate, 1),
                 new Booking(rental.Id, rental.Units[2].Id, requestDate, 1),
             };
-            BookingRepository.Setup(x => x.GetBookingsByRentalIdAndStartDate(rental.Id, DateTime.Now)).ReturnsAsync(books);
+            BookingRepository.Setup(x => x.GetBookingsByRentalIdAndStartDate(It.IsAny<int>(), It.IsAny<DateTime>())).ReturnsAsync(books);
 
             return this;
         }
@@ -63,7 +63,7 @@ namespace VacationRental.Application.UnitTests.Builders
                 new Booking(rental.Id, rental.Units[1].Id, requestDate, 1),
         
             };
-            BookingRepository.Setup(x => x.GetBookingsByRentalIdAndStartDate(rental.Id, DateTime.Now)).ReturnsAsync(books);
+            BookingRepository.Setup(x => x.GetBookingsByRentalIdAndStartDate(It.IsAny<int>(), It.IsAny<DateTime>())).ReturnsAsync(books);
             var availableUnitId = rental.Units[2].Id;
             var booking = new Booking(rental.Id, availableUnitId, requestDate, 1);
             booking.SetId(1);

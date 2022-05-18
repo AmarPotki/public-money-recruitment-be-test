@@ -46,7 +46,7 @@ namespace VacationRental.Application.CommandHandlers
                                            (request.Start <= c.StartDate && requestEndDate >= c.EndDate));
 
 
-                if (notAvailableUnits.Count() >= rental.UnitsCount())
+                if (notAvailableUnits.Count() >= rental.AvailableUnitsCount())
                     throw new ApplicationServiceException(Errors.NotAvailable);
                 var availableUnits = rental.Units.Select(x => x.Id).Except(notAvailableUnits.Select(c => c.UnitId));
                 firstAvailableUnitId = availableUnits.First();
