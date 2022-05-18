@@ -48,5 +48,16 @@ namespace VacationRental.Api.Controllers
             var resourceIdViewModel = new ResourceIdViewModel { Id = result.Id };
             return resourceIdViewModel;
         }
+
+        [HttpPut("{id:noZeroes}")]
+        [ProducesResponseType(typeof(ResourceIdViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Post(int id,UpdateRentalCommand updateRental)
+        {
+            updateRental.RentalId = id;
+            var result = await _mediator.Send(updateRental);
+            // we can use Automapper or Mapster
+           // var resourceIdViewModel = new ResourceIdViewModel { Id = result.Id };
+            return Ok();
+        }
     }
 }

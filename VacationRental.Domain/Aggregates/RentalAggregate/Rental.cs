@@ -23,10 +23,36 @@ namespace VacationRental.Domain.Aggregates.RentalAggregate
             _units.Add(new Unit(unitNumber));
         }
 
-        public int UnitsCount() => _units.Count;
+        public int UnitsCount() => _units.Count(c=>c.IsEnabled);
         private void AddUnits(int unitNumbers)
         {
             for (var i = 1; i <= unitNumbers; i++)
+            {
+                _units.Add(new Unit(i));
+            }
+        }
+
+        public void UpdatePreparationTimeInDays(int preparationTimeInDays)
+        {
+            PreparationTimeInDays = preparationTimeInDays;
+            //event
+
+        }
+
+        public void DecreaseUnits(int count)
+        {
+            var units = _units.Where(c=>c.IsEnabled).OrderByDescending(x => x.Id).Take(count);
+            foreach (var unit in units)
+            {
+                unit.Disable();
+                //fire event
+            }
+        }
+
+        public void IncreaseUnits(int count)
+        {
+            var nextUnitNumber = _units.Max(c=>c.UnitNumber) +1;
+            for (var i = nextUnitNumber; i <= count + nextUnitNumber; i++)
             {
                 _units.Add(new Unit(i));
             }
@@ -38,8 +64,12 @@ namespace VacationRental.Domain.Aggregates.RentalAggregate
         public Unit(int unitNumber)
         {
             UnitNumber = unitNumber;
+            IsEnabled = true;
         }
 
+        public bool IsEnabled { get; private set; }
         public int UnitNumber { get;private set; }
+
+        public void Disable() => IsEnabled = false;
     }
 }

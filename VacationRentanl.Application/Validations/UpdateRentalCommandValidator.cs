@@ -14,9 +14,7 @@ namespace VacationRental.Application.Validations
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Units must be greater or equal to than zero!");
 
-            RuleFor(command => command.RentalId)
-                .GreaterThan(0)
-                .WithMessage("RentalId must be greater than zero!");
+
         }
     }
 }

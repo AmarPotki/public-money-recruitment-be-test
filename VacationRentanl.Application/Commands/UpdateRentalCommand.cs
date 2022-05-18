@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Runtime.Serialization;
+using MediatR;
 
 namespace VacationRental.Application.Commands
 {
@@ -6,6 +7,7 @@ namespace VacationRental.Application.Commands
     {
 
         public int Units { get; set; }
+        [IgnoreDataMember]
         public int RentalId { get; set; }
         public int PreparationTimeInDays { get; set; }
     }

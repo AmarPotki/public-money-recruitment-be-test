@@ -88,6 +88,15 @@ namespace VacationRental.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can not update PreparationTimeInDays Or Unit count because overlapping will happen..
+        /// </summary>
+        public static string NewPreparationTimeInDaysOrUnitsFails {
+            get {
+                return ResourceManager.GetString("NewPreparationTimeInDaysOrUnitsFails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can not update Units because there is at least one day in your bookings list that .....
         /// </summary>
         public static string NewUnitsCountFails {

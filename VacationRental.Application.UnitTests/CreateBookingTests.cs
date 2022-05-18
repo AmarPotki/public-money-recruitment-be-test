@@ -17,7 +17,7 @@ namespace VacationRental.Application.UnitTests
         public async Task Must_Throw_An_Exception_If_rental_Not_Found()
         {
             
-            var createBooking = new CreateBookingCommandBuilder().Build();
+            var createBooking = new CreateBookingCommandBuilder().WithDefaultBook().Build();
             var handler =
                 new CreateBookingCommandHandlerBuilder()
                     .WithNullRental()

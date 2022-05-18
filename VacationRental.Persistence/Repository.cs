@@ -5,15 +5,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Framework.Domain;
+using MediatR;
 
 namespace VacationRental.Persistence
 {
     public abstract class RepositoryInMemoryBase<T> :
      IRepository<T> where T : class, IAggregateRoot
     {
+        private readonly IMediator _mediator;
+
         public RepositoryInMemoryBase
-            (IDictionary<int, T> db)
+            (IDictionary<int, T> db,IMediator mediator)
         {
+            _mediator = mediator;
             DB = db;
         }
 
@@ -38,12 +42,12 @@ namespace VacationRental.Persistence
             return Task.FromResult(entity);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             var e = DB.First(x => x.Key == entity.Id);
             if (e.Value == null) throw new ArgumentNullException(paramName: nameof(entity));
-
-
+            DB[entity.Id]=entity;
+            
         }
 
 
@@ -53,6 +57,16 @@ namespace VacationRental.Persistence
             var entity = DB.FirstOrDefault(x => x.Key == id);
 
             return Task.FromResult(entity.Value);
+        }
+
+        public async Task PublishEvent(T entity)
+        {
+            var events = entity.DomainEvents;
+            entity.ClearDomainEvents();
+            foreach (var entityDomainEvent in events)
+            {
+                await _mediator.Publish(entityDomainEvent);
+            }
         }
     }
 }

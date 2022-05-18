@@ -31,5 +31,4 @@ namespace VacationRental.Application.UnitTests.Builders
             return _bindingModel;
         }
     }
-
 }

@@ -45,7 +45,7 @@ namespace VacationRental.Application.Queries
                     PreparationTimes = new List<UnitViewModel>()
                 };
 
-                var bookedUnits = bookings.Where(c => c.Start.AddDays(c.Nights) > date.Date);
+                var bookedUnits = bookings.Where(c => c.Start <= date.Date  && c.Start.AddDays(c.Nights) > date.Date);
                 foreach (var bookedUnit in bookedUnits)
                 {
 

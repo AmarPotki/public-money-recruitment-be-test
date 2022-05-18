@@ -126,6 +126,9 @@
   <data name="NewPreparationTimeInDaysFails" xml:space="preserve">
     <value>You can not update PreparationTimeInDays because overlapping will happen.</value>
   </data>
+  <data name="NewPreparationTimeInDaysOrUnitsFails" xml:space="preserve">
+    <value>You can not update PreparationTimeInDays Or Unit count because overlapping will happen.</value>
+  </data>
   <data name="NewUnitsCountFails" xml:space="preserve">
     <value>You can not update Units because there is at least one day in your bookings list that ....</value>
   </data>

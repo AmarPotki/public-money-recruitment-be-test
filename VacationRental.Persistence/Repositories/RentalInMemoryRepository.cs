@@ -29,6 +29,21 @@ namespace VacationRental.Persistence.Repositories
             return base.AddAsync(entity, cancellationToken);
         }
 
+        public override void Update(Rental entity)
+        {
+            var e = DB.First(x => x.Key == entity.Id);
+            if (e.Value == null) throw new ArgumentNullException(paramName: nameof(entity));
+            var lastUnitId = _db.Values.SelectMany(c => c.Units).Max(x => x.Id);
+            var unitsWithoutId = _db.Values.SelectMany(c => c.Units).Where(x => x.Id == 0);
+
+            foreach (var unit in unitsWithoutId)
+            {
+                lastUnitId++;
+                unit.SetId(lastUnitId);
+            }
+            DB[entity.Id] = entity;
+        }
+
         public Task<bool> IsExistAsync(int rentalId)
         {
             return Task.FromResult( DB.Keys.Contains(rentalId));

@@ -17,5 +17,6 @@ namespace Framework.Domain
         Task<T> FirstAsync
             (int id, CancellationToken cancellationToken = default);
 
+        Task PublishEvent(T entity);
     }
 }
