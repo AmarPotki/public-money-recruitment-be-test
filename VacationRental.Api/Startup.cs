@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
-using VacationRental.Api.Models;
+using VacationRental.Api.Infrastructure.Extensions;
+using VacationRental.Application.CommandHandlers;
+using VacationRental.Domain.Aggregates.RentalAggregate;
+using VacationRental.Persistence.Repositories;
+using VacationRental.Application.Queries;
+using VacationRental.Domain.Aggregates.BookingAggregate;
 
 namespace VacationRental.Api
 {
@@ -21,12 +25,12 @@ namespace VacationRental.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            services.AddCustomMvc();
+            services.AddCustomFluentValidation();
+            services.AddCustomMediatR();
+            services.AddApplicationServices();
 
-            services.AddSwaggerGen(opts => opts.SwaggerDoc("v1", new Info { Title = "Vacation rental information", Version = "v1" }));
-
-            services.AddSingleton<IDictionary<int, RentalViewModel>>(new Dictionary<int, RentalViewModel>());
-            services.AddSingleton<IDictionary<int, BookingViewModel>>(new Dictionary<int, BookingViewModel>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
